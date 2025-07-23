@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>攻牙机点检系统 | Sistema de Inspección de Máquinas de Roscado</title>
+    <title>攻牙机点检系统 | Tapping Machine Inspection System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -507,7 +507,7 @@
             flex-direction: column;
         }
         
-        .deployment-options {
+        .usage-guide {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 25px;
@@ -515,13 +515,13 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .deployment-options h2 {
+        .usage-guide h2 {
             color: #2c3e50;
             margin-bottom: 20px;
             text-align: center;
         }
         
-        .deployment-options h2 .es {
+        .usage-guide h2 .es {
             font-size: 1rem;
             font-weight: normal;
             display: block;
@@ -529,7 +529,7 @@
             color: #666;
         }
         
-        .option-card {
+        .guide-steps {
             background: white;
             border-radius: 8px;
             padding: 20px;
@@ -537,7 +537,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        .option-card h3 {
+        .guide-steps h3 {
             color: #1a2980;
             margin-bottom: 15px;
             display: flex;
@@ -545,74 +545,24 @@
             gap: 10px;
         }
         
-        .option-card h3 i {
+        .guide-steps h3 i {
             font-size: 1.5rem;
         }
         
-        .option-card ul {
+        .guide-steps ul {
             padding-left: 20px;
             margin-bottom: 15px;
             line-height: 1.8;
         }
         
-        .option-card .steps {
+        .guide-steps .steps {
             background: #eef7ff;
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
         }
         
-        .option-card .steps li {
-            margin-bottom: 10px;
-        }
-        
-        .http-url {
-            background: #e3f2fd;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .http-url h3 {
-            margin-bottom: 15px;
-            color: #0d47a1;
-        }
-        
-        .url-box {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 1.2rem;
-            margin: 15px 0;
-            border: 2px dashed #1a2980;
-            word-break: break-all;
-        }
-        
-        .qr-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        .qr-placeholder {
-            width: 150px;
-            height: 150px;
-            background: #f0f7ff;
-            border: 2px dashed #4a7bff;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 10px;
-        }
-        
-        .qr-placeholder i {
-            font-size: 3rem;
-            color: #4a7bff;
+        .guide-steps .steps li {
             margin-bottom: 10px;
         }
         
@@ -681,7 +631,7 @@
                 <i class="fas fa-tools"></i>
                 <div class="bilingual-title">
                     <h1>攻牙机点检系统</h1>
-                    <div class="es">Sistema de Inspección de Máquinas de Roscado</div>
+                    <div class="es">Tapping Machine Inspection System</div>
                 </div>
             </div>
             
@@ -689,21 +639,21 @@
                 <div class="info-card">
                     <h3>
                         当前设备
-                        <span class="es">Equipo Actual</span>
+                        <span class="es">Current Equipment</span>
                     </h3>
-                    <input type="text" id="device-input" placeholder="输入设备名称" value="攻牙机-01">
+                    <input type="text" id="device-input" placeholder="输入设备名称" value="Tapping-01">
                 </div>
                 <div class="info-card">
                     <h3>
                         生产线体
-                        <span class="es">Línea de Producción</span>
+                        <span class="es">Production Line</span>
                     </h3>
-                    <input type="text" id="line-input" placeholder="输入生产线体" value="A3生产线">
+                    <input type="text" id="line-input" placeholder="输入生产线体" value="500T">
                 </div>
                 <div class="info-card">
                     <h3>
                         点检时间
-                        <span class="es">Hora de Inspección</span>
+                        <span class="es">Inspection Time</span>
                     </h3>
                     <p id="inspection-time">--:--:--</p>
                 </div>
@@ -714,19 +664,15 @@
             <div class="tabs">
                 <div class="tab active" data-tab="inspection">
                     点检记录
-                    <span class="es">Registro de Inspección</span>
+                    <span class="es">Inspection Record</span>
                 </div>
                 <div class="tab" data-tab="history">
                     历史记录
-                    <span class="es">Historial</span>
+                    <span class="es">History Records</span>
                 </div>
                 <div class="tab" data-tab="export">
                     数据管理
-                    <span class="es">Gestión de Datos</span>
-                </div>
-                <div class="tab" data-tab="deploy">
-                    在线访问
-                    <span class="es">Acceso en Línea</span>
+                    <span class="es">Data Management</span>
                 </div>
             </div>
             
@@ -740,15 +686,15 @@
                         </div>
                         <div>
                             项目
-                            <span class="es">Ítem</span>
+                            <span class="es">Item</span>
                         </div>
                         <div>
                             状态
-                            <span class="es">Estado</span>
+                            <span class="es">Status</span>
                         </div>
                         <div>
                             备注
-                            <span class="es">Notas</span>
+                            <span class="es">Notes</span>
                         </div>
                     </div>
                     
@@ -759,7 +705,7 @@
                                 <div class="item-project">油量</div>
                                 <div class="item-standard">
                                     油量充足
-                                    <span class="es">Aceite suficiente</span>
+                                    <span class="es">Sufficient oil level</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -777,7 +723,7 @@
                                 <div class="item-project">丝锥</div>
                                 <div class="item-standard">
                                     无缺失、断裂、磨损
-                                    <span class="es">Sin faltantes, rotos, desgastados</span>
+                                    <span class="es">No missing, breakage, wear</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -795,7 +741,7 @@
                                 <div class="item-project">软管</div>
                                 <div class="item-standard">
                                     喷油正常、无破损、缺失
-                                    <span class="es">La inyección de combustible es normal, sin daños, falta</span>
+                                    <span class="es">Normal oil spray, no damage, missing</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -813,7 +759,7 @@
                                 <div class="item-project">气缸</div>
                                 <div class="item-standard">
                                     开合正常
-                                    <span class="es">Apertura y cierre normales</span>
+                                    <span class="es">Normal opening and closing</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -831,7 +777,7 @@
                                 <div class="item-project">定位</div>
                                 <div class="item-standard">
                                     位置精确
-                                    <span class="es">Ubicación precisa</span>
+                                    <span class="es">Precise positioning</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -849,7 +795,7 @@
                                 <div class="item-project">传感器</div>
                                 <div class="item-standard">
                                     感应正常
-                                    <span class="es">La inducción es normal</span>
+                                    <span class="es">Normal sensing</span>
                                 </div>
                             </div>
                             <div class="status-btns">
@@ -874,7 +820,7 @@
                             <div class="input-group">
                                 <label>
                                     复检人
-                                    <span class="es">Revisor</span>
+                                    <span class="es">Reviewer</span>
                                 </label>
                                 <input type="text" id="checker" placeholder="请输入姓名或工号">
                             </div>
@@ -883,11 +829,11 @@
                         <div class="shift-selector">
                             <button class="shift-btn active" data-shift="day">
                                 白班
-                                <span class="es">Turno de Día</span>
+                                <span class="es">Day Shift</span>
                             </button>
                             <button class="shift-btn" data-shift="night">
                                 夜班
-                                <span class="es">Turno de Noche</span>
+                                <span class="es">Night Shift</span>
                             </button>
                         </div>
                         
@@ -895,7 +841,7 @@
                             <i class="fas fa-paper-plane"></i>
                             <div class="bilingual-text">
                                 <span>提交点检记录</span>
-                                <span class="es">Enviar Registro</span>
+                                <span class="es">Submit Inspection</span>
                             </div>
                         </button>
                     </div>
@@ -919,120 +865,60 @@
                     <button id="export-btn" class="action-btn export">
                         <i class="fas fa-file-excel"></i>
                         <span>导出Excel数据</span>
-                        <span class="es">Exportar a Excel</span>
+                        <span class="es">Export to Excel</span>
                     </button>
                     <button id="import-btn" class="action-btn import">
                         <i class="fas fa-file-import"></i>
                         <span>导入数据</span>
-                        <span class="es">Importar Datos</span>
+                        <span class="es">Import Data</span>
                     </button>
                     <button id="clear-btn" class="action-btn clear">
                         <i class="fas fa-trash-alt"></i>
                         <span>清除所有数据</span>
-                        <span class="es">Borrar Datos</span>
+                        <span class="es">Clear All Data</span>
                     </button>
                 </div>
                 
-                <div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">
+                <div class="usage-guide">
+                    <h2>
                         使用说明
-                        <span style="display: block; font-size: 0.9rem; font-weight: normal; color: #666;">Instrucciones de Uso</span>
-                    </h3>
-                    <ol style="line-height: 2; padding-left: 20px;">
-                        <li>扫描设备二维码进入点检页面</li>
-                        <li style="font-size: 0.9rem; color: #666;">Escanee el código QR del equipo para ingresar</li>
-                        
-                        <li>填写点检信息并选择设备状态</li>
-                        <li style="font-size: 0.9rem; color: #666;">Complete la información y seleccione el estado</li>
-                        
-                        <li>填写点检人和复检人信息</li>
-                        <li style="font-size: 0.9rem; color: #666;">Ingrese inspector y revisor</li>
-                        
-                        <li>选择班次后提交记录</li>
-                        <li style="font-size: 0.9rem; color: #666;">Seleccione turno y envíe registro</li>
-                        
-                        <li>在"历史记录"中查看所有点检记录</li>
-                        <li style="font-size: 0.9rem; color: #666;">Vea registros en "Historial"</li>
-                        
-                        <li>在"数据管理"中导出Excel文件</li>
-                        <li style="font-size: 0.9rem; color: #666;">Exporte Excel en "Gestión de Datos"</li>
-                        
-                        <li>设备名称和生产线体可随时编辑</li>
-                        <li style="font-size: 0.9rem; color: #666;">Edite equipo y línea en cualquier momento</li>
-                    </ol>
+                        <span class="es">User Guide</span>
+                    </h2>
+                    
+                    <div class="guide-steps">
+                        <h3><i class="fas fa-tasks"></i> 点检流程说明</h3>
+                        <div class="steps">
+                            <ol>
+                                <li>填写设备名称和生产线体信息</li>
+                                <li>按顺序检查每个项目并选择状态</li>
+                                <li>对于异常项目，在备注栏填写详细说明</li>
+                                <li>填写点检人和复检人信息</li>
+                                <li>选择当前班次（白班或夜班）</li>
+                                <li>点击"提交点检记录"按钮完成操作</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-steps">
+                        <h3><i class="fas fa-database"></i> 数据管理说明</h3>
+                        <div class="steps">
+                            <ol>
+                                <li><strong>导出Excel数据</strong>：将点检记录导出为Excel文件</li>
+                                <li><strong>导入数据</strong>：从Excel文件导入点检记录（需特定格式）</li>
+                                <li><strong>清除所有数据</strong>：删除所有点检历史记录（不可恢复）</li>
+                            </ol>
+                        </div>
+                    </div>
                     
                     <div style="margin-top: 20px; background: #e3f2fd; padding: 15px; border-radius: 8px;">
                         <h4 style="margin-bottom: 10px; color: #0d47a1;">
                             数据保存说明
-                            <span style="display: block; font-size: 0.85rem; font-weight: normal; color: #1a237e;">Nota sobre Almacenamiento</span>
+                            <span style="display: block; font-size: 0.85rem; font-weight: normal; color: #1a237e;">Data Storage Note</span>
                         </h4>
                         <p>所有数据保存在浏览器本地存储中，清除浏览器缓存将导致数据丢失。请定期导出数据备份。</p>
                         <p style="font-size: 0.9rem; margin-top: 5px; color: #1a237e;">
-                            Los datos se guardan localmente. Limpiar el caché del navegador eliminará los datos. Exporte regularmente para respaldar.
+                            All data is stored locally in the browser. Clearing browser cache will delete the data. Please export regularly for backup.
                         </p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 在线部署标签页 -->
-            <div class="tab-content" id="deploy-tab">
-                <div class="deployment-options">
-                    <h2>
-                        系统在线访问地址
-                        <span class="es">URL de Acceso al Sistema</span>
-                    </h2>
-                    
-                    <div class="http-url">
-                        <h3>
-                            HTTP访问地址 (复制以下URL使用)
-                            <span class="es">URL de Acceso HTTP (Copie la siguiente URL)</span>
-                        </h3>
-                        <div class="url-box">
-                            http://inspection.rosqueo-system.com
-                        </div>
-                        
-                        <div class="qr-container">
-                            <div class="qr-placeholder">
-                                <i class="fas fa-qrcode"></i>
-                                <span>扫码访问系统</span>
-                                <span class="es">Escanear para acceder</span>
-                            </div>
-                        </div>
-                        
-                        <p>此URL为示例地址，实际使用时请替换为您的部署地址</p>
-                        <p class="es">Esta URL es un ejemplo, reemplácela con su URL de despliegue real</p>
-                    </div>
-                    
-                    <div class="option-card">
-                        <h3><i class="fas fa-cloud-upload-alt"></i> 系统部署指南</h3>
-                        <p>将系统部署到您自己的服务器上</p>
-                        
-                        <div class="steps">
-                            <ol>
-                                <li>将本页HTML代码保存为<code>index.html</code>文件</li>
-                                <li>上传文件到您的Web服务器（Apache/Nginx）</li>
-                                <li>配置服务器使用HTTP协议（端口80）</li>
-                                <li>为每台设备生成访问二维码</li>
-                                <li>通过http://您的域名 访问系统</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <div class="option-card">
-                        <h3><i class="fas fa-qrcode"></i> 二维码生成指南</h3>
-                        <p>为每台设备生成专属二维码</p>
-                        
-                        <div class="steps">
-                            <ol>
-                                <li>确定系统URL：<code>http://inspection.yourcompany.com</code></li>
-                                <li>为设备添加参数：<br>
-                                    <code>http://inspection.yourcompany.com?machineId=攻牙机-01&line=A3</code>
-                                </li>
-                                <li>使用草料二维码生成器（<a href="http://cli.im" target="_blank">cli.im</a>）</li>
-                                <li>设置二维码尺寸（建议8×8cm）</li>
-                                <li>打印并粘贴到设备上</li>
-                            </ol>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1040,9 +926,8 @@
     </div>
     
     <div class="footer">
-        <p>攻牙机点检系统 © 2023 | 在线点检解决方案</p>
-        <p style="font-size: 0.8rem; margin-top: 5px;">Sistema de Inspección de Máquinas de Roscado | Solución en Línea</p>
-        <p style="font-size: 0.8rem; margin-top: 10px;">访问地址: <a href="http://inspection.rosqueo-system.com" style="color: white; text-decoration: underline;">http://inspection.rosqueo-system.com</a></p>
+        <p>攻牙机点检系统 © 2023 | 工业设备点检解决方案</p>
+        <p style="font-size: 0.8rem; margin-top: 5px;">Tapping Machine Inspection System | Industrial Equipment Solution</p>
     </div>
 
     <script>
@@ -1158,19 +1043,19 @@
                         <tr>
                             <th>
                                 时间
-                                <span class="es">Hora</span>
+                                <span class="es">Time</span>
                             </th>
                             <th>
                                 设备
-                                <span class="es">Equipo</span>
+                                <span class="es">Equipment</span>
                             </th>
                             <th>
                                 线体
-                                <span class="es">Línea</span>
+                                <span class="es">Line</span>
                             </th>
                             <th>
                                 班次
-                                <span class="es">Turno</span>
+                                <span class="es">Shift</span>
                             </th>
                             <th>
                                 点检人
@@ -1178,11 +1063,11 @@
                             </th>
                             <th>
                                 复检人
-                                <span class="es">Revisor</span>
+                                <span class="es">Reviewer</span>
                             </th>
                             <th>
                                 状态
-                                <span class="es">Estado</span>
+                                <span class="es">Status</span>
                             </th>
                         </tr>
                     </thead>
@@ -1297,7 +1182,7 @@
                 delete item.status;
             });
             
-            alert('点检记录提交成功！\n¡Registro de inspección enviado con éxito!');
+            alert('点检记录提交成功！\nInspection record submitted successfully!');
         }
         
         // 保存记录到数据库
@@ -1330,7 +1215,7 @@
                 const records = event.target.result;
                 
                 if (records.length === 0) {
-                    alert('没有可导出的数据\nNo hay datos para exportar');
+                    alert('没有可导出的数据\nNo data to export');
                     return;
                 }
                 
@@ -1384,7 +1269,7 @@
         
         // 清除所有数据
         function clearData() {
-            if (!confirm('确定要清除所有点检记录吗？此操作不可恢复！\n¿Seguro que desea borrar todos los registros? ¡Esta acción no se puede deshacer!')) return;
+            if (!confirm('确定要清除所有点检记录吗？此操作不可恢复！\nAre you sure you want to delete all records? This action cannot be undone!')) return;
             
             if (!db) return;
             
@@ -1393,7 +1278,7 @@
             const request = store.clear();
             
             request.onsuccess = function() {
-                alert('所有点检记录已清除\nTodos los registros han sido eliminados');
+                alert('所有点检记录已清除\nAll records have been deleted');
                 loadRecords();
             };
         }
@@ -1436,7 +1321,7 @@
             
             // 导入按钮占位
             document.getElementById('import-btn').addEventListener('click', function() {
-                alert('导入功能需要文件读取API支持\nLa función de importación requiere soporte de API de lectura de archivos');
+                alert('导入功能需要文件读取API支持\nImport function requires file API support');
             });
         });
     </script>
