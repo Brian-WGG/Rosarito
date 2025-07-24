@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>攻牙机点检系统 | Tapping Machine Inspection System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-direction: column;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .bilingual-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .bilingual-title h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .bilingual-title .es {
+            font-size: 1.2rem;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+        
+        .device-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 20px;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .info-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+        
+        .info-card h3 .es {
+            font-size: 0.8rem;
+            display: block;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+        
+        .info-card p, .info-card input {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            background: transparent;
+            border: none;
+            width: 100%;
+            color: white;
+            outline: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 0;
+        }
+        
+        .info-card input:focus {
+            border-bottom: 2px solid white;
+        }
+        
+        .main-content {
+            padding: 25px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f0f7ff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab .es {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: normal;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+        
+        .tab.active {
+            background: #4a7bff;
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #d1e3ff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .inspection-form {
+            margin-top: 20px;
+        }
+        
+        .form-header {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 120px;
+            gap: 10px;
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+        }
+        
+        .form-header > div {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-header .es {
+            font-size: 0.8rem;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+        
+        .inspection-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 120px;
+            gap: 10px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+        
+        .inspection-item:hover {
+            background: #f9f9f9;
+        }
+        
+        .item-id {
+            font-weight: bold;
+            color: #1a2980;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .item-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-project {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .item-standard {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .item-standard .es {
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .status-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .status-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-ok {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-ok.active {
+            background: #2E7D32;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-ng {
+            background: #F44336;
+            color: white;
+        }
+        
+        .btn-ng.active {
+            background: #C62828;
+            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.3);
+        }
+        
+        .notes-input {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notes-input input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .notes-input input:focus {
+            outline: none;
+            border-color: #4a7bff;
+            box-shadow: 0 0 0 2px rgba(74, 123, 255, 0.2);
+        }
+        
+        .submit-section {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .inspector-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .input-group label .es {
+            font-size: 0.8rem;
+            font-weight: normal;
+            color: #666;
+        }
+        
+        .input-group input, 
+        .input-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .shift-selector {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .shift-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .shift-btn .es {
+            font-size: 0.8rem;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+        
+        .shift-btn.active {
+            background: #4a7bff;
+            color: white;
+            border-color: #4a7bff;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .submit-btn .es {
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .records-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .records-table th .es {
+            font-size: 0.8rem;
+            font-weight: normal;
+            display: block;
+            opacity: 0.9;
+        }
+        
+        .records-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .records-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .records-table tr:hover {
+            background: #f0f7ff;
+        }
+        
+        .status-ok {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .status-ng {
+            color: #F44336;
+            font-weight: bold;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            background: #4a7bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .action-btn .es {
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+        
+        .action-btn.export {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+        }
+        
+        .action-btn.import {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+        
+        .action-btn.clear {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .no-records {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+        
+        .bilingual-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .usage-guide {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .usage-guide h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .usage-guide h2 .es {
+            font-size: 1rem;
+            font-weight: normal;
+            display: block;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .guide-steps {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .guide-steps h3 {
+            color: #1a2980;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .guide-steps h3 i {
+            font-size: 1.5rem;
+        }
+        
+        .guide-steps ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .guide-steps .steps {
+            background: #eef7ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .guide-steps .steps li {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-header, .inspection-item {
+                grid-template-columns: 30px 1fr;
+                grid-template-areas: 
+                    "id project"
+                    "status notes";
+            }
+            
+            .item-id {
+                grid-area: id;
+            }
+            
+            .item-details {
+                grid-area: project;
+            }
+            
+            .status-btns {
+                grid-area: status;
+                justify-content: flex-start;
+            }
+            
+            .status-btns .status-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .notes-input {
+                grid-area: notes;
+            }
+            
+            .inspector-input {
+                flex-direction: column;
+            }
+            
+            .device-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .info-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .bilingual-title h1 {
+                font-size: 1.5rem;
+            }
+            
+            .bilingual-title .es {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-tools"></i>
+                <div class="bilingual-title">
+                    <h1>攻牙机点检系统</h1>
+                    <div class="es">Tapping Machine Inspection System</div>
+                </div>
+            </div>
+            
+            <div class="device-info">
+                <div class="info-card">
+                    <h3>
+                        当前设备
+                        <span class="es">Current Equipment</span>
+                    </h3>
+                    <input type="text" id="device-input" placeholder="输入设备名称" value="Tapping-01">
+                </div>
+                <div class="info-card">
+                    <h3>
+                        生产线体
+                        <span class="es">Production Line</span>
+                    </h3>
+                    <input type="text" id="line-input" placeholder="输入生产线体" value="500T">
+                </div>
+                <div class="info-card">
+                    <h3>
+                        点检时间
+                        <span class="es">Inspection Time</span>
+                    </h3>
+                    <p id="inspection-time">--:--:--</p>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="tabs">
+                <div class="tab active" data-tab="inspection">
+                    点检记录
+                    <span class="es">Inspection Record</span>
+                </div>
+                <div class="tab" data-tab="history">
+                    历史记录
+                    <span class="es">History Records</span>
+                </div>
+                <div class="tab" data-tab="export">
+                    数据管理
+                    <span class="es">Data Management</span>
+                </div>
+            </div>
+            
+            <!-- 点检记录标签页 -->
+            <div class="tab-content active" id="inspection-tab">
+                <div class="inspection-form">
+                    <div class="form-header">
+                        <div>
+                            序号
+                            <span class="es">No.</span>
+                        </div>
+                        <div>
+                            项目
+                            <span class="es">Item</span>
+                        </div>
+                        <div>
+                            状态
+                            <span class="es">Status</span>
+                        </div>
+                        <div>
+                            备注
+                            <span class="es">Notes</span>
+                        </div>
+                    </div>
+                    
+                    <div id="inspection-items">
+                        <div class="inspection-item">
+                            <div class="item-id">1</div>
+                            <div class="item-details">
+                                <div class="item-project">油量</div>
+                                <div class="item-standard">
+                                    油量充足
+                                    <span class="es">Sufficient oil level</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="1" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="1" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="1" placeholder="备注信息">
+                            </div>
+                        </div>
+                        
+                        <div class="inspection-item">
+                            <div class="item-id">2</div>
+                            <div class="item-details">
+                                <div class="item-project">丝锥</div>
+                                <div class="item-standard">
+                                    无缺失、断裂、磨损
+                                    <span class="es">No missing, breakage, wear</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="2" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="2" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="2" placeholder="备注信息">
+                            </div>
+                        </div>
+                        
+                        <div class="inspection-item">
+                            <div class="item-id">3</div>
+                            <div class="item-details">
+                                <div class="item-project">软管</div>
+                                <div class="item-standard">
+                                    喷油正常、无破损、缺失
+                                    <span class="es">Normal oil spray, no damage, missing</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="3" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="3" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="3" placeholder="备注信息">
+                            </div>
+                        </div>
+                        
+                        <div class="inspection-item">
+                            <div class="item-id">4</div>
+                            <div class="item-details">
+                                <div class="item-project">气缸</div>
+                                <div class="item-standard">
+                                    开合正常
+                                    <span class="es">Normal opening and closing</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="4" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="4" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="4" placeholder="备注信息">
+                            </div>
+                        </div>
+                        
+                        <div class="inspection-item">
+                            <div class="item-id">5</div>
+                            <div class="item-details">
+                                <div class="item-project">定位</div>
+                                <div class="item-standard">
+                                    位置精确
+                                    <span class="es">Precise positioning</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="5" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="5" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="5" placeholder="备注信息">
+                            </div>
+                        </div>
+                        
+                        <div class="inspection-item">
+                            <div class="item-id">6</div>
+                            <div class="item-details">
+                                <div class="item-project">传感器</div>
+                                <div class="item-standard">
+                                    感应正常
+                                    <span class="es">Normal sensing</span>
+                                </div>
+                            </div>
+                            <div class="status-btns">
+                                <button class="status-btn btn-ok" data-item="6" data-status="ok">正常</button>
+                                <button class="status-btn btn-ng" data-item="6" data-status="ng">异常</button>
+                            </div>
+                            <div class="notes-input">
+                                <input type="text" class="item-notes" data-item="6" placeholder="备注信息">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="submit-section">
+                        <div class="inspector-input">
+                            <div class="input-group">
+                                <label>
+                                    点检人
+                                    <span class="es">Inspector</span>
+                                </label>
+                                <input type="text" id="inspector" placeholder="请输入姓名或工号">
+                            </div>
+                            <div class="input-group">
+                                <label>
+                                    复检人
+                                    <span class="es">Reviewer</span>
+                                </label>
+                                <input type="text" id="checker" placeholder="请输入姓名或工号">
+                            </div>
+                        </div>
+                        
+                        <div class="shift-selector">
+                            <button class="shift-btn active" data-shift="day">
+                                白班
+                                <span class="es">Day Shift</span>
+                            </button>
+                            <button class="shift-btn" data-shift="night">
+                                夜班
+                                <span class="es">Night Shift</span>
+                            </button>
+                        </div>
+                        
+                        <button id="submit-btn" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            <div class="bilingual-text">
+                                <span>提交点检记录</span>
+                                <span class="es">Submit Inspection</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 历史记录标签页 -->
+            <div class="tab-content" id="history-tab">
+                <div id="history-content">
+                    <div class="no-records">
+                        <i class="fas fa-clipboard-list" style="font-size: 3rem; margin-bottom: 15px; color: #ccc;"></i>
+                        <h3>暂无点检记录</h3>
+                        <p>请提交新的点检记录</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 数据管理标签页 -->
+            <div class="tab-content" id="export-tab">
+                <div class="action-buttons">
+                    <button id="export-btn" class="action-btn export">
+                        <i class="fas fa-file-excel"></i>
+                        <span>导出Excel数据</span>
+                        <span class="es">Export to Excel</span>
+                    </button>
+                    <button id="import-btn" class="action-btn import">
+                        <i class="fas fa-file-import"></i>
+                        <span>导入数据</span>
+                        <span class="es">Import Data</span>
+                    </button>
+                    <button id="clear-btn" class="action-btn clear">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>清除所有数据</span>
+                        <span class="es">Clear All Data</span>
+                    </button>
+                </div>
+                
+                <div class="usage-guide">
+                    <h2>
+                        使用说明
+                        <span class="es">User Guide</span>
+                    </h2>
+                    
+                    <div class="guide-steps">
+                        <h3><i class="fas fa-tasks"></i> 点检流程说明</h3>
+                        <div class="steps">
+                            <ol>
+                                <li>填写设备名称和生产线体信息</li>
+                                <li>按顺序检查每个项目并选择状态</li>
+                                <li>对于异常项目，在备注栏填写详细说明</li>
+                                <li>填写点检人和复检人信息</li>
+                                <li>选择当前班次（白班或夜班）</li>
+                                <li>点击"提交点检记录"按钮完成操作</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-steps">
+                        <h3><i class="fas fa-database"></i> 数据管理说明</h3>
+                        <div class="steps">
+                            <ol>
+                                <li><strong>导出Excel数据</strong>：将点检记录导出为Excel文件</li>
+                                <li><strong>导入数据</strong>：从Excel文件导入点检记录（需特定格式）</li>
+                                <li><strong>清除所有数据</strong>：删除所有点检历史记录（不可恢复）</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; background: #e3f2fd; padding: 15px; border-radius: 8px;">
+                        <h4 style="margin-bottom: 10px; color: #0d47a1;">
+                            数据保存说明
+                            <span style="display: block; font-size: 0.85rem; font-weight: normal; color: #1a237e;">Data Storage Note</span>
+                        </h4>
+                        <p>所有数据保存在浏览器本地存储中，清除浏览器缓存将导致数据丢失。请定期导出数据备份。</p>
+                        <p style="font-size: 0.9rem; margin-top: 5px; color: #1a237e;">
+                            All data is stored locally in the browser. Clearing browser cache will delete the data. Please export regularly for backup.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>攻牙机点检系统 © 2023 | 工业设备点检解决方案</p>
+        <p style="font-size: 0.8rem; margin-top: 5px;">Tapping Machine Inspection System | Industrial Equipment Solution</p>
+    </div>
+
+    <script>
+        // 更新时间显示
+        function updateTime() {
+            const now = new Date();
+            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            document.getElementById('inspection-time').textContent = timeString;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // 点检项目数据
+        const inspectionItems = [
+            { id: 1, project: "油量", standard: "油量充足" },
+            { id: 2, project: "丝锥", standard: "无缺失、断裂、磨损" },
+            { id: 3, project: "软管", standard: "喷油正常、无破损、缺失" },
+            { id: 4, project: "气缸", standard: "开合正常" },
+            { id: 5, project: "定位", standard: "位置精确" },
+            { id: 6, project: "传感器", standard: "感应正常" }
+        ];
+        
+        // 添加状态按钮事件
+        document.querySelectorAll('.status-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const itemId = this.dataset.item;
+                const status = this.dataset.status;
+                
+                // 移除同组的active状态
+                const siblings = this.parentElement.querySelectorAll('.status-btn');
+                siblings.forEach(sib => sib.classList.remove('active'));
+                
+                // 设置当前按钮为active
+                this.classList.add('active');
+                
+                // 存储状态
+                const item = inspectionItems.find(i => i.id == itemId);
+                if (item) {
+                    item.status = status;
+                }
+            });
+        });
+        
+        // 初始化数据库
+        let db;
+        const DB_NAME = 'inspectionDB';
+        const STORE_NAME = 'records';
+        
+        function initDB() {
+            const request = indexedDB.open(DB_NAME, 1);
+            
+            request.onerror = function(event) {
+                console.error('数据库打开失败:', event.target.error);
+            };
+            
+            request.onsuccess = function(event) {
+                db = event.target.result;
+                console.log('数据库打开成功');
+                loadRecords();
+            };
+            
+            request.onupgradeneeded = function(event) {
+                db = event.target.result;
+                
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    const objectStore = db.createObjectStore(STORE_NAME, { 
+                        keyPath: 'id',
+                        autoIncrement: true 
+                    });
+                    
+                    objectStore.createIndex('machineId', 'machineId', { unique: false });
+                    objectStore.createIndex('timestamp', 'timestamp', { unique: false });
+                }
+            };
+        }
+        
+        // 加载历史记录
+        function loadRecords() {
+            if (!db) return;
+            
+            const transaction = db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.getAll();
+            
+            request.onsuccess = function(event) {
+                const records = event.target.result;
+                renderRecords(records);
+            };
+        }
+        
+        // 渲染历史记录
+        function renderRecords(records) {
+            const container = document.getElementById('history-content');
+            
+            if (records.length === 0) {
+                container.innerHTML = `
+                    <div class="no-records">
+                        <i class="fas fa-clipboard-list" style="font-size: 3rem; margin-bottom: 15px; color: #ccc;"></i>
+                        <h3>暂无点检记录</h3>
+                        <p>请提交新的点检记录</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 按时间倒序排序
+            records.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            let tableHTML = `
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                时间
+                                <span class="es">Time</span>
+                            </th>
+                            <th>
+                                设备
+                                <span class="es">Equipment</span>
+                            </th>
+                            <th>
+                                线体
+                                <span class="es">Line</span>
+                            </th>
+                            <th>
+                                班次
+                                <span class="es">Shift</span>
+                            </th>
+                            <th>
+                                点检人
+                                <span class="es">Inspector</span>
+                            </th>
+                            <th>
+                                复检人
+                                <span class="es">Reviewer</span>
+                            </th>
+                            <th>
+                                状态
+                                <span class="es">Status</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            records.forEach(record => {
+                const date = new Date(record.timestamp);
+                const timeString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                
+                // 检查是否有异常项
+                let hasIssue = false;
+                for (let i = 1; i <= 6; i++) {
+                    if (record[`item${i}_status`] === 'ng') {
+                        hasIssue = true;
+                        break;
+                    }
+                }
+                
+                tableHTML += `
+                    <tr>
+                        <td>${timeString}</td>
+                        <td>${record.machineId}</td>
+                        <td>${record.line}</td>
+                        <td>${record.shift === 'day' ? '白班' : '夜班'}</td>
+                        <td>${record.inspector}</td>
+                        <td>${record.checker}</td>
+                        <td class="${hasIssue ? 'status-ng' : 'status-ok'}">
+                            ${hasIssue ? '异常' : '正常'}
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        // 提交点检记录
+        function submitInspection() {
+            const machineId = document.getElementById('device-input').value.trim();
+            const lineId = document.getElementById('line-input').value.trim();
+            const inspector = document.getElementById('inspector').value.trim();
+            const checker = document.getElementById('checker').value.trim();
+            const shiftBtn = document.querySelector('.shift-btn.active');
+            
+            if (!machineId) {
+                alert('请输入设备名称');
+                return;
+            }
+            
+            if (!lineId) {
+                alert('请输入生产线体');
+                return;
+            }
+            
+            if (!inspector) {
+                alert('请输入点检人信息');
+                return;
+            }
+            
+            if (!checker) {
+                alert('请输入复检人信息');
+                return;
+            }
+            
+            if (!shiftBtn) {
+                alert('请选择班次');
+                return;
+            }
+            
+            // 检查所有项目是否已点检
+            for (const item of inspectionItems) {
+                if (!item.status) {
+                    alert(`请完成项目 ${item.project} 的点检`);
+                    return;
+                }
+            }
+            
+            // 创建记录对象
+            const record = {
+                machineId: machineId,
+                line: lineId,
+                shift: shiftBtn.dataset.shift,
+                inspector: inspector,
+                checker: checker,
+                timestamp: new Date().toISOString()
+            };
+            
+            // 添加点检项目状态
+            inspectionItems.forEach((item, index) => {
+                record[`item${index+1}_project`] = item.project;
+                record[`item${index+1}_status`] = item.status;
+                record[`item${index+1}_notes`] = document.querySelector(`.item-notes[data-item="${item.id}"]`).value;
+            });
+            
+            // 保存到数据库
+            saveRecord(record);
+            
+            // 重置表单
+            document.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.item-notes').forEach(input => input.value = '');
+            document.getElementById('inspector').value = '';
+            document.getElementById('checker').value = '';
+            
+            // 重置项目状态
+            inspectionItems.forEach(item => {
+                delete item.status;
+            });
+            
+            alert('点检记录提交成功！\nInspection record submitted successfully!');
+        }
+        
+        // 保存记录到数据库
+        function saveRecord(record) {
+            if (!db) return;
+            
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.add(record);
+            
+            request.onsuccess = function() {
+                console.log('记录保存成功');
+                loadRecords();
+            };
+            
+            request.onerror = function(event) {
+                console.error('保存失败:', event.target.error);
+            };
+        }
+        
+        // 导出Excel数据
+        function exportData() {
+            if (!db) return;
+            
+            const transaction = db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.getAll();
+            
+            request.onsuccess = function(event) {
+                const records = event.target.result;
+                
+                if (records.length === 0) {
+                    alert('没有可导出的数据\nNo data to export');
+                    return;
+                }
+                
+                // 创建CSV内容
+                let csvContent = "序号,设备,线体,班次,点检人,复检人,时间";
+                
+                // 添加项目标题
+                for (let i = 1; i <= 6; i++) {
+                    csvContent += `,项目${i},状态${i},备注${i}`;
+                }
+                csvContent += "\n";
+                
+                // 添加记录数据
+                records.forEach((record, index) => {
+                    const date = new Date(record.timestamp);
+                    const timeString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                    
+                    let row = [
+                        index + 1,
+                        record.machineId,
+                        record.line,
+                        record.shift === 'day' ? '白班' : '夜班',
+                        record.inspector,
+                        record.checker,
+                        timeString
+                    ];
+                    
+                    // 添加项目数据
+                    for (let i = 1; i <= 6; i++) {
+                        row.push(record[`item${i}_project`] || '');
+                        row.push(record[`item${i}_status`] === 'ok' ? '正常' : '异常');
+                        row.push(record[`item${i}_notes`] || '');
+                    }
+                    
+                    csvContent += row.map(field => `"${field}"`).join(',') + "\n";
+                });
+                
+                // 创建下载链接
+                const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                const dateStr = new Date().toISOString().slice(0,10);
+                link.setAttribute('download', `攻牙机点检记录_${dateStr}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+        }
+        
+        // 清除所有数据
+        function clearData() {
+            if (!confirm('确定要清除所有点检记录吗？此操作不可恢复！\nAre you sure you want to delete all records? This action cannot be undone!')) return;
+            
+            if (!db) return;
+            
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.clear();
+            
+            request.onsuccess = function() {
+                alert('所有点检记录已清除\nAll records have been deleted');
+                loadRecords();
+            };
+        }
+        
+        // 标签切换功能
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有active类
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // 添加当前active类
+                    this.classList.add('active');
+                    document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+        }
+        
+        // 班次选择功能
+        function setupShiftButtons() {
+            document.querySelectorAll('.shift-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.shift-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initDB();
+            setupTabs();
+            setupShiftButtons();
+            
+            // 事件绑定
+            document.getElementById('submit-btn').addEventListener('click', submitInspection);
+            document.getElementById('export-btn').addEventListener('click', exportData);
+            document.getElementById('clear-btn').addEventListener('click', clearData);
+            
+            // 导入按钮占位
+            document.getElementById('import-btn').addEventListener('click', function() {
+                alert('导入功能需要文件读取API支持\nImport function requires file API support');
+            });
+        });
+    </script>
+</body>
+</html>
